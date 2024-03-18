@@ -246,9 +246,6 @@ const Grid = () => {
       <div className="w-[90%] h-[2px] bg-slate-600 my-5 mt-10 "></div>
 
       <div className="flex flex-col font-bold px-2 items-center">
-        <div className="mt-2">
-          Data Structure & Algorithm Laboratory Project
-        </div>
         <div className="mt-2 text-center">Project By: Shubham Shinde</div>
       </div>
     </div>
