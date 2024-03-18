@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaPlay, FaFlag } from "react-icons/fa"; 
+import { FaPlay, FaFlag } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
 
 const Grid = () => {
@@ -249,10 +249,7 @@ const Grid = () => {
         <div className="mt-2">
           Data Structure & Algorithm Laboratory Project
         </div>
-        <div className="mt-2 text-center">
-          Project By: 21452_Shubham Shinde and 21451_Harshwardhan Shinde
-        </div>
-        <div className="mt-2">Guided by: Prof. P.A. Khadakikar</div>
+        <div className="mt-2 text-center">Project By: Shubham Shinde</div>
       </div>
     </div>
   );
