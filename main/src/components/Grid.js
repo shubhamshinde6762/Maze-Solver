@@ -18,7 +18,7 @@ const Grid = () => {
 
   useEffect(() => {
     try {
-      console.log(grid);
+      // console.log(grid);
       if (
         gridTemp &&
         gridTemp.row &&
@@ -193,7 +193,7 @@ const Grid = () => {
       return;
     }
 
-    console.log(ans);
+    // console.log(ans);
 
     setMinPath(ans);
   };
