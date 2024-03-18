@@ -49,7 +49,7 @@ const Grid = () => {
     } catch (err) {
       console.error("Error configuring grid:", err);
     }
-  }, [gridTemp.row, gridTemp.column]);
+  }, [grid, gridTemp]);
 
   const changeHandler = (event) => {
     const { id, value } = event.target;
