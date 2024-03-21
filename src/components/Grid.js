@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaPlay, FaFlag } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
+import { GiMaze } from "react-icons/gi";
+import { ReactTyped } from "react-typed";
 
 const Grid = () => {
   const [grid, configureGrid] = useState({
@@ -15,6 +17,7 @@ const Grid = () => {
 
   const [map, setMap] = useState([]);
   const [minPath, setMinPath] = useState([]);
+  const [hardness, setHardness] = useState(0.3);
 
   useEffect(() => {
     try {
@@ -63,6 +66,8 @@ const Grid = () => {
     try {
       if ((i === 0 && j === 0) || (i === grid.row - 1 && j === grid.column - 1))
         return;
+      if (minPath.length != 0) setMinPath([]);
+
       const updatedMap = [...map];
       updatedMap[i][j] = updatedMap[i][j] === 0 ? 1 : 0;
       setMap(updatedMap);
@@ -83,8 +88,12 @@ const Grid = () => {
   const generateGrid = () => {
     if (!map || map.length === 0) {
       return (
-        <div className="w-full text-center">
-          Choose correct Rows and Column Input...
+        <div className="text-center bg-slate-950">
+          <ReactTyped
+            className=" text-white text-xl"
+            strings={["Choose correct Rows and Column Input..."]}
+            typeSpeed={20}
+          ></ReactTyped>
         </div>
       );
     }
@@ -100,7 +109,7 @@ const Grid = () => {
           content = <FaFlag className=" scale-125" size={iconSize} />;
         }
         let classNames =
-          "w-full max-w-20 flex justify-center items-center text-center aspect-square border border-slate-600 bg-gray-200";
+          "w-full max-w-20 flex justify-center items-center text-center aspect-square border border-slate-600 cursor-pointer hover:border-2 hover:border-white ";
         if (minPath.some(([x, y]) => x === i && y === j)) {
           classNames += " bg-green-500";
         } else if (map[i][j] === 1) {
@@ -118,7 +127,7 @@ const Grid = () => {
         );
       }
       rows.push(
-        <div key={i} className="flex justify-center">
+        <div key={i} className="flex justify-center ">
           {columns}
         </div>
       );
@@ -198,56 +207,115 @@ const Grid = () => {
     setMinPath(ans);
   };
 
+  const generateRandomBlockages = () => {
+    const numRows = grid.row;
+    const numColumns = grid.column;
+    const newMap = [];
+
+    if (numColumns === 0 || numRows === 0) return;
+
+    setMinPath([]);
+
+    for (let i = 0; i < numRows; i++) {
+      const row = [];
+      for (let j = 0; j < numColumns; j++) {
+        // Logic to determine blockages based on hardness
+        if (Math.random() < hardness) {
+          row.push(1); // Blockage
+        } else {
+          row.push(0); // Empty space
+        }
+      }
+      newMap.push(row);
+    }
+
+    newMap[0][0] = -1; // Start
+    newMap[numRows - 1][numColumns - 1] = -2; // End
+
+    setMap(newMap);
+  };
+
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div className="w-full bg-slate-950 text-white  flex flex-col justify-center items-center">
       <div>
         <Toaster />
       </div>
-      <div className="text-4xl font-bold text-center mt-5">Maze Solver</div>
-      <div className="w-[90%] h-[2px] bg-slate-600 my-5 "></div>
-      <div className="flex w-full gap-x-5 gap-y-5 mt-5 flex-wrap justify-center items-center ">
-        <div className="flex gap-x-2">
-          <label className="flex justify-center items-center flex-wrap shadow p-2 rounded-lg">
+      <div className="text-4xl flex gap-4  text-white font-bold text-center mt-3">
+        <GiMaze className="text-5xl" />
+        Maze Mastermind
+      </div>
+      <div className="font-bold text-xl ">
+        <ReactTyped
+          className="bg-slate-900 w-full"
+          strings={["Grid Builder", "Grid Solver"]}
+          typeSpeed={100}
+          backSpeed={50}
+        ></ReactTyped>
+      </div>
+      <div className="w-[90%] h-[2px] bg-slate-600 my-2 "></div>
+      <div className="flex w-full gap-x-5 gap-y-5 flex-wrap justify-center items-center ">
+        <div className="flex flex-col gap-2">
+          <label className="flex gap-10 justify-center items-center flex-wrap shadow p-2 rounded-lg">
             <span className="mx-2 text-xl font-bold">Row</span>
             <input
               type="number"
-              className=" bg-gray-200 w-28 px-2 text-xl text-center font-bold rounded-md"
+              className=" bg-gray-700 w-28 px-2 text-xl text-center font-bold rounded-md"
               onChange={changeHandler}
               id="row"
               value={gridTemp.row}
             />
           </label>
-          <label className="flex justify-center items-center flex-wrap shadow p-2 rounded-lg">
+
+          <label className="flex gap-2 justify-center items-center flex-wrap shadow p-2 rounded-lg">
             <span className="mx-2 text-xl font-bold">Column</span>
             <input
               type="number"
-              className=" bg-gray-200 w-28 px-2 text-xl text-center font-bold rounded-md"
+              className=" bg-gray-700 w-28 px-2 text-xl text-center font-bold rounded-md"
               onChange={changeHandler}
               id="column"
               value={gridTemp.column}
             />
           </label>
         </div>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-md"
-          onClick={findPath}
-        >
-          Find Path
-        </button>
-        <button
-          className="bg-red-500 text-white px-4 py-2 rounded-md"
-          onClick={resetGrid}
-        >
-          Reset
-        </button>
+
+        <div className="px-4 py-3 flex flex-col items-center gap-2  border-4 border-dashed rounded-xl bg-slate-900 my-4">
+          <div className="flex gap-x-2 items-center">
+            <span className="text-xl font-bold">Level </span>
+            <input
+              type="range"
+              min="0.1"
+              max="0.5"
+              step="0.05"
+              className="bg-gray-700 w-28 px-2 text-xl font-bold rounded-md"
+              onChange={(e) => {
+                setHardness(parseFloat(e.target.value));
+              }}
+            />
+          </div>
+          <button
+            className=" w-fit px-2 py-1 rounded-xl font-bold bg-green-700 hover:bg-green-800 hover:scale-105 transition-all duration-300"
+            onClick={() => generateRandomBlockages(hardness)}
+          >
+            Random Blocks
+          </button>
+        </div>
+        <div className="flex flex-col gap-4">
+          <button
+            className="bg-blue-500 font-bold text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition-all duration-300"
+            onClick={findPath}
+          >
+            Find Path
+          </button>
+          <button
+            className="bg-red-500 hover:bg-red-600 font-bold hover:scale-105 transition-all duration-300 text-white px-4 py-2 rounded-md"
+            onClick={resetGrid}
+          >
+            Reset
+          </button>
+        </div>
       </div>
 
-      <div className="w-full mt-10 px-10">{generateGrid()}</div>
-      <div className="w-[90%] h-[2px] bg-slate-600 my-5 mt-10 "></div>
-
-      <div className="flex flex-col font-bold px-2 items-center">
-        <div className="mt-2 text-center">Project By: Shubham Shinde</div>
-      </div>
+      <div className="w-full my-2 px-10 bg-gray-950">{generateGrid()}</div>
     </div>
   );
 };
