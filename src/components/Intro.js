@@ -37,8 +37,8 @@ const Intro = () => {
         <GiMaze
           className={` w-full text-white font-bold scale-0 duration-1000 transition-all ${
             animationFinished2
-              ? "scale-[5] -rotate-90 translate-x-[70vw]"
-              : "scale-[1] translate-x-[0vw] transition-all duration-500"
+              ? "scale-[1] -rotate-90 translate-x-[70vw]"
+              : "scale-[15] translate-x-[0vw] transition-all duration-500"
           } ${
             animationFinished
               ? " opacity-0 translate-y-[50vh]"
