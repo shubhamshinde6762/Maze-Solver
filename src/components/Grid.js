@@ -66,7 +66,7 @@ const Grid = () => {
     try {
       if ((i === 0 && j === 0) || (i === grid.row - 1 && j === grid.column - 1))
         return;
-      if (minPath.length != 0) setMinPath([]);
+      if (minPath.length !== 0) setMinPath([]);
 
       const updatedMap = [...map];
       updatedMap[i][j] = updatedMap[i][j] === 0 ? 1 : 0;
