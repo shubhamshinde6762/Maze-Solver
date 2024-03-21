@@ -41,7 +41,7 @@ const Intro = () => {
               : "scale-[15] translate-x-[0vw] transition-all duration-500"
           } ${
             animationFinished
-              ? " opacity-0 translate-y-[50vh]"
+              ? " opacity-0 translate-y-[50vh] scale-[0.1]"
               : " translate-y-[0vh] scale-[15]  opacity-100"
           }`}
         />

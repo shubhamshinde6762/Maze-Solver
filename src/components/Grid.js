@@ -248,8 +248,9 @@ const Grid = () => {
         <ReactTyped
           className="bg-slate-900 w-full"
           strings={["Grid Builder", "Grid Solver"]}
-          typeSpeed={100}
+          typeSpeed={130}
           backSpeed={50}
+          loop
         ></ReactTyped>
       </div>
       <div className="w-[90%] h-[2px] bg-slate-600 my-2 "></div>
